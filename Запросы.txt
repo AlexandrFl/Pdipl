@@ -1,0 +1,21 @@
+1-ый запрос:
+
+SELECT
+	c."login",
+	COUNT(o."courierId")
+FROM "Couriers" c
+INNER JOIN "Orders" o ON o."courierId" = c."id"
+WHERE o."inDelivery" = TRUE
+GROUP BY c."login";
+
+2–ой запрос:
+
+SELECT
+	"track",
+	CASE
+		WHEN "finished" = TRUE THEN '2'
+		WHEN "cancelled" = TRUE THEN '-1'
+		WHEN "inDelivery" = TRUE THEN '1'
+		ELSE '0'
+	END AS "Status"
+FROM "Orders";
