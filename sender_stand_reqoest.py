@@ -2,13 +2,21 @@ import requests
 import configuration
 import data
 
-def create_order (body) :
+
+def create_order(body):
     response = requests.post(configuration.URL + configuration.CREATE_ORDER, json=body, headers=data.headers)
-    track = response.json()
-    return track["track"]
+    if response.status_code == 201:
+        print("\n1. Order created successfully")
+    else:
+        print(response.status_code)
+    order = response.json()
+    return order
 
-order_track = create_order(data.order)
 
-def get_order_status (track) :
+def get_order_status(track):
     response = requests.get(configuration.URL + configuration.GET_ORDER, params={'t': track})
-    return response.status_code
+    if response.status_code == 200:
+        print("3. Getting order by status successfully")
+    else:
+        print(response.status_code)
+    return response
